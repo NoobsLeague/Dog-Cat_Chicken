@@ -736,14 +736,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d2861b0c34e3740a885c47be5cdcf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionBlockerMask:
-    serializedVersion: 2
-    m_Bits: 8
   points: 0
   steps: 0
-  rayRadius: 20
+  rayRadius: 40
   sight: 10
-  movingSpeed: 0
+  movingSpeed: 4
   randomDirectionValue: {x: -1, y: 1}
   chikenWeight: 1
   distanceFactor: 1
@@ -754,7 +751,7 @@ MonoBehaviour:
   visionColor: {r: 1, g: 0, b: 0.086262226, a: 1}
   foundColor: {r: 0.08644817, g: 0.14228693, b: 0.8867924, a: 1}
   directionColor: {r: 0, g: 0.9811321, b: 0.09965745, a: 1}
-  debug: 0
+  debug: 1
 --- !u!65 &1342035104466212717
 BoxCollider:
   m_ObjectHideFlags: 0

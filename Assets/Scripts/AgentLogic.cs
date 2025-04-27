@@ -53,6 +53,7 @@ public struct AgentData
     public float catDistanceFactor;
     public float dogWeight;
     public float dogDistanceFactor;
+  
     
 
 
@@ -71,6 +72,7 @@ public struct AgentData
         this.catDistanceFactor = catDistanceFactor;
         this.dogWeight = dogWeight;
         this.dogDistanceFactor = dogDistanceFactor;
+    
         
     }
 }
@@ -83,7 +85,7 @@ public struct AgentData
 [RequireComponent(typeof(Rigidbody))]
 public class AgentLogic : MonoBehaviour, IComparable
 {
-    [SerializeField] private LayerMask visionBlockerMask;
+
     private Vector3 _movingDirection;
     private Rigidbody _rigidbody;
 
@@ -297,6 +299,22 @@ public class AgentLogic : MonoBehaviour, IComparable
         }
     }
 
+    private float bushUtility(){
+         Collider[] hits = Physics.OverlapSphere(transform.position, 5f); 
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Dog"))
+                {
+                    Vector3 toDog = (hit.transform.position - transform.position).normalized;
+                    float dot = Vector3.Dot(transform.forward, toDog);
+                    if (dot < -0.5f)
+                    {
+                       return -2; 
+                    }
+                }
+            }
+            return 0;
+    }
 
     private AgentDirection CalculateAgentDirection(Vector3 selfPosition, Vector3 rayDirection, float sightFactor = 1.0f)
     {
@@ -311,6 +329,7 @@ public class AgentLogic : MonoBehaviour, IComparable
 
 
         var direction = new AgentDirection(new Vector3(rayDirection.x, 0.0f, rayDirection.z), utility);
+
 
         if (Physics.Raycast(selfPosition, rayDirection, out RaycastHit raycastHit, sight * sightFactor))
         {
@@ -328,14 +347,15 @@ public class AgentLogic : MonoBehaviour, IComparable
             
             utility = raycastHit.collider.gameObject.tag switch
             {
-                //All formulas are the same. Only the weights change.
+                
 #region Weights
                 
                 "Chiken" => distanceIndex * distanceFactor + chikenWeight,
                 "Cat" => distanceIndex * catDistanceFactor + catWeight,
                 "Dog" => distanceIndex * dogDistanceFactor + dogWeight,
-                "Bush" => distanceIndex * -dogDistanceFactor,
-                _ => utility
+                "Wall" => -1f,
+                "Bush" => bushUtility() * dogWeight,
+            _ => utility
             };
         }
 #endregion
