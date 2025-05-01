@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.IO;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -56,7 +57,7 @@ public class GenerationManager : MonoBehaviour
     }
 
     private void Start()
-    {
+    {   
         if (runOnStart)
         {
             StartSimulation();
@@ -171,12 +172,12 @@ public class GenerationManager : MonoBehaviour
         PrefabUtility.SaveAsPrefabAsset(lastdogWinner.gameObject, savePrefabsAt + lastdogWinner.name + ".prefab");
 
         //Winners:
-        Debug.Log("Last winner cat had: " + lastcatWinner.GetPoints() + " points!" + " Last winner dog had: " +
+        Debug.Log("Simulation Counter : " + generationCount + ", Last winner cat had: " + lastcatWinner.GetPoints() + " points!" + " Last winner dog had: " +
                   lastdogWinner.GetPoints() + " points!");
+
 
         GenerateObjects(_catParents, _dogParents);
     }
-
     public void StartSimulation()
     {
         Random.InitState(6);
