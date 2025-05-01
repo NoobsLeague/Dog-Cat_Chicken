@@ -18,7 +18,7 @@ public class LogToFile : MonoBehaviour
 
     void Start()
     {
-        logFilePath = Application.dataPath + "logdata.text";
+        logFilePath = Application.dataPath + "/logdata.text";
     }
 
     public void Log(string logString, string stackTrace, LogType type){
